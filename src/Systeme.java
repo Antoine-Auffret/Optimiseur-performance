@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 public class Systeme {
 
     private ArrayList<Transformateur> tList;
@@ -18,6 +20,8 @@ public class Systeme {
             // Strategie de base
             for (Transformateur t : tList){
 
+                System.out.println("buffer size : " + t.getBufferSize());
+
                 if(t.getBufferSize() > 0){
 
                     String request = t.getElement();
@@ -27,6 +31,12 @@ public class Systeme {
                     String response = "Y";
                     t.sendResponse(response);
                 }
+            }
+
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
