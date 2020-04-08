@@ -6,9 +6,14 @@ public class Fournisseur extends Thread {
 
     private Transformateur t;
 
+    private int id;
+
+    private static int _id = 0;
+
     public Fournisseur(Transformateur tInit){
         System.out.println("Initialisation d'un fournisseur");
         t = tInit;
+        id=_id++;
     }
 
     public void run() {
@@ -34,7 +39,7 @@ public class Fournisseur extends Thread {
     }
 
     public void getResponse(String buffStatus, Integer bufferSize, String request, String response){
-        String log = String.format("BuffStatus : %s | BuffSize : %d | Req : %s | Resp : %s", buffStatus, bufferSize, request, response);
+        String log = String.format("Id : %d | BuffStatus : %s | BuffSize : %d | Req : %s | Resp : %s", id, buffStatus, bufferSize, request, response);
         System.out.println(log);
     }
 }

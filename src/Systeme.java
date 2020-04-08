@@ -21,12 +21,8 @@ public class Systeme {
     public void run(){
         while(true){
 
-            int i=0;
             // Strategie de base
             for (Transformateur t : tList){
-
-                //String sizeLog = String.format("(%d) buffer size : %d", i, t.getBufferSize());
-                //System.out.println(sizeLog);
 
                 if(t.getBufferSize() > 0){
 
@@ -38,7 +34,6 @@ public class Systeme {
                     t.sendResponse(response);
                 }
 
-                i++;
             }
 
             try {
