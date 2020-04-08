@@ -27,7 +27,7 @@ public class Transformateur {
     }
 
     public String getElement(){
-        lastRequest = requestFIFO.remove();
+        lastRequest = requestFIFO.removeFirst();
         return lastRequest;
     }
 
