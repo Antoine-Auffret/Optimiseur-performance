@@ -12,8 +12,8 @@ public class Fournisseur extends Thread {
     }
 
     public void run() {
-        int min = 500;
-        int max = 1500;
+        int min = 50;
+        int max = 150;
 
         while(true) {
             int randomTime = ThreadLocalRandom.current().nextInt(min, max + 1);

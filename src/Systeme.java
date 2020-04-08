@@ -9,7 +9,11 @@ public class Systeme {
     public Systeme(){
        tList = new ArrayList<>();
 
-       tList.add(new Transformateur());
+       int nbTranfo = 4;
+
+       for(int i=0; i<nbTranfo; i++){
+           tList.add(new Transformateur());
+       }
 
        run();
     }
@@ -17,10 +21,12 @@ public class Systeme {
     public void run(){
         while(true){
 
+            int i=0;
             // Strategie de base
             for (Transformateur t : tList){
 
-                System.out.println("buffer size : " + t.getBufferSize());
+                String sizeLog = String.format("(%d) buffer size : %d", i, t.getBufferSize());
+                System.out.println(sizeLog);
 
                 if(t.getBufferSize() > 0){
 
@@ -31,6 +37,8 @@ public class Systeme {
                     String response = "Y";
                     t.sendResponse(response);
                 }
+
+                i++;
             }
 
             try {
