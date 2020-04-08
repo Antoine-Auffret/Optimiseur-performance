@@ -1,12 +1,11 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Systeme {
 
-    private List<Transformateur> tList;
+    private ArrayList<Transformateur> tList;
 
     public Systeme(){
-       tList = new ArrayList();
+       tList = new ArrayList<>();
 
        tList.add(new Transformateur());
 
