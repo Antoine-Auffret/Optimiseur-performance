@@ -9,6 +9,8 @@ public class Transformateur {
 
     private String lastRequest;
 
+    private String buffStatus;
+
     public Transformateur(){
 
         requestFIFO = new LinkedList<String>();
@@ -22,8 +24,27 @@ public class Transformateur {
             requestFIFO.add(request);
         }
         else{
-            f.getResponse(request,"Error : Buffer is full");
+            f.getResponse(writeBuffStatus(), getBufferSize(), request,"Error : Buffer is full");
         }
+    }
+
+    public String writeBuffStatus() {
+        int buffSize = getBufferSize();
+        int VIDE = 0;
+        int OK = 3;
+        int DANGER = 7;
+        int MAX = 10;
+
+        if (buffSize >= VIDE && buffSize < OK)
+            this.buffStatus = "VIDE";
+        else if (buffSize >= OK && buffSize < DANGER)
+            this.buffStatus = "OK";
+        else if (buffSize >= DANGER && buffSize < MAX)
+            this.buffStatus = "DANGER";
+        else if (buffSize >= MAX)
+            this.buffStatus = "MAX";
+
+        return this.buffStatus;
     }
 
     public String getElement(){
@@ -32,7 +53,7 @@ public class Transformateur {
     }
 
     public void sendResponse(String response){
-        f.getResponse(lastRequest,response);
+        f.getResponse(writeBuffStatus(), getBufferSize(), lastRequest, response);
     }
 
     public int getBufferSize(){

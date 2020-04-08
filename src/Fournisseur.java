@@ -33,8 +33,8 @@ public class Fournisseur extends Thread {
         t.getRequest(request);
     }
 
-    public void getResponse(String request, String response){
-        String log = String.format("Req : %s / Resp : %s", request, response);
+    public void getResponse(String buffStatus, Integer bufferSize, String request, String response){
+        String log = String.format("BuffStatus : %s | BuffSize : %d | Req : %s | Resp : %s", buffStatus, bufferSize, request, response);
         System.out.println(log);
     }
 }

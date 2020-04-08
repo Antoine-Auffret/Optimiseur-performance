@@ -25,8 +25,8 @@ public class Systeme {
             // Strategie de base
             for (Transformateur t : tList){
 
-                String sizeLog = String.format("(%d) buffer size : %d", i, t.getBufferSize());
-                System.out.println(sizeLog);
+                //String sizeLog = String.format("(%d) buffer size : %d", i, t.getBufferSize());
+                //System.out.println(sizeLog);
 
                 if(t.getBufferSize() > 0){
 
