@@ -1,10 +1,10 @@
+import java.io.ObjectInputFilter;
 import java.util.LinkedList;
 
 public class Transformateur {
 
     private LinkedList<String> requestFIFO;
 
-    private int maxListSize = 10;
     private Fournisseur f;
 
     private String lastRequest;
@@ -20,7 +20,7 @@ public class Transformateur {
     }
 
     public void getRequest(String request){
-        if(getBufferSize() < maxListSize){
+        if(getBufferSize() < Conf.maxBufferSize){
             requestFIFO.add(request);
         }
         else{
@@ -30,21 +30,17 @@ public class Transformateur {
 
     public String writeBuffStatus() {
         int buffSize = getBufferSize();
-        int VIDE = 0;
-        int OK = 3;
-        int DANGER = 7;
-        int MAX = 10;
 
-        if (buffSize >= VIDE && buffSize < OK)
-            this.buffStatus = "VIDE";
-        else if (buffSize >= OK && buffSize < DANGER)
-            this.buffStatus = "OK";
-        else if (buffSize >= DANGER && buffSize < MAX)
-            this.buffStatus = "DANGER";
-        else if (buffSize >= MAX)
-            this.buffStatus = "MAX";
+        Capacite[] capacities = Capacite.values();
 
-        return this.buffStatus;
+        for (int i=0; i<capacities.length-1; i++)
+        {
+            if(buffSize >= capacities[i].getValue() && buffSize < capacities[i+1].getValue()){
+                return capacities[i].name();
+            }
+        }
+
+        return capacities[capacities.length - 1].name();
     }
 
     public String getElement(){
