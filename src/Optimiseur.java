@@ -1,13 +1,15 @@
 import java.util.List;
 
 public class Optimiseur {
-    public Optimiseur(){
+    private Strategie strat;
 
+    public Optimiseur(){
+        strat = new Strategie();
     }
 
-    /*public Transformateur chooseTransfo(List<Transformateur> transfoList){
-
-    }*/
+    public int chooseTransfo(List<Integer> transfoList){
+        return strat.process(transfoList);
+    }
 
     public void printStats(){
 
