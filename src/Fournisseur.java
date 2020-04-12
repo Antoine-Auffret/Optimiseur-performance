@@ -1,6 +1,7 @@
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Fournisseur extends Thread {
 
@@ -10,8 +11,17 @@ public class Fournisseur extends Thread {
 
     private static int _id = 0;
 
+    boolean isDebug = java.lang.management.ManagementFactory.getRuntimeMXBean().
+            getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
+
+    private static final Logger LOGGER = Logger.getLogger("");
+
     public Fournisseur(Transformateur tInit){
-        System.out.println("Initialisation d'un fournisseur");
+        if (isDebug){
+            LOGGER.setLevel(Level.FINE);
+            LOGGER.getHandlers()[0].setLevel(Level.FINE);
+        }
+        LOGGER.fine("Initialisation d'un fournisseur");
         t = tInit;
         id=_id++;
     }
@@ -40,6 +50,6 @@ public class Fournisseur extends Thread {
 
     public void getResponse(String buffStatus, Integer bufferSize, String request, String response){
         String log = String.format("Id : %d | BuffStatus : %s | BuffSize : %d | Req : %s | Resp : %s", id, buffStatus, bufferSize, request, response);
-        System.out.println(log);
+        LOGGER.fine(log);
     }
 }
