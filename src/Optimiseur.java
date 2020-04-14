@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Optimiseur {
     private List<Strategie> strat;
@@ -33,7 +32,11 @@ public class Optimiseur {
         return strat;
     }
 
-    public void printStats(){
+    public int getScore(){
+        return strat.get(0).getScore();
+    }
 
+    public void resetScore(){
+        strat.get(0).setScore(0);
     }
 }

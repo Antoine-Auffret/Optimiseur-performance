@@ -11,6 +11,8 @@ public class Transformateur {
 
     private String buffStatus;
 
+    private int cptErrorFull = 0;
+
     public Transformateur(){
 
         requestFIFO = new LinkedList<String>();
@@ -24,6 +26,7 @@ public class Transformateur {
             requestFIFO.add(request);
         }
         else{
+            cptErrorFull++;
             f.getResponse(writeBuffStatus(), getBufferSize(), request,"Error : Buffer is full");
         }
     }
@@ -64,5 +67,9 @@ public class Transformateur {
 
     public int getBufferSize(){
         return requestFIFO.size();
+    }
+
+    public int getNbErrorFull(){
+        return cptErrorFull;
     }
 }
