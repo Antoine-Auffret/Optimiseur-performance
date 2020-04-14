@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Optimiseur {
     private List<Strategie> strat;
@@ -15,10 +14,14 @@ public class Optimiseur {
     }
 
     public int chooseTransfo(List<Integer> transfoList){
-        return strat.get(2).process(transfoList);
+        return strat.get(0).process(transfoList);
     }
 
-    public void printStats(){
+    public int getScore(){
+        return strat.get(0).getScore();
+    }
 
+    public void resetScore(){
+        strat.get(0).setScore(0);
     }
 }
