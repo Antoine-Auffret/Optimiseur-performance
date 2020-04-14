@@ -9,6 +9,8 @@ public class Systeme {
 
     private Optimiseur opti;
 
+    private Integer nbTour = 1;
+
     public Systeme(){
        tList = new ArrayList<>();
 
@@ -28,10 +30,12 @@ public class Systeme {
         String request, response;
         Transformateur transfoToTreat;
 
-        while(true){
+        while(nbTour < 500){
 
             transfoId = opti.chooseTransfo(getTransfoSize());
             transfoToTreat = tList.get(transfoId);
+
+            System.out.println("nbTour : " + nbTour++);
 
             if(transfoToTreat.getBufferSize() > 0){
                 request = transfoToTreat.getElement();
