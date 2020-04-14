@@ -40,7 +40,7 @@ public class Systeme {
                     t.resume();
                 }
 
-                opti.resetScore();
+                opti.resetScore(strategieId);
 
                 while (nbTour <= 500) {
 
@@ -70,12 +70,12 @@ public class Systeme {
                     t.pause();
                 }
 
-            int score = opti.getScore() + 25*getNbFullError();
-            System.out.println("Score : " + score);
+                int score = opti.getScore(strategieId) + 25*getNbFullError();
+                System.out.println("Score : " + score);
 
-            System.out.println("Press Enter key to continue...");
-            Scanner s = new Scanner(System.in);
-            s.nextLine();
+                System.out.println("Press Enter key to continue...");
+                Scanner s = new Scanner(System.in);
+                s.nextLine();
 
                 nbTour = 0;
             }
@@ -91,7 +91,7 @@ public class Systeme {
         }
 
         return bufferSizeList;
-    }
+     }
 
     private int getNbFullError(){
         int totalError = 0;

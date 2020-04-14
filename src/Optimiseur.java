@@ -32,11 +32,11 @@ public class Optimiseur {
         return strat;
     }
 
-    public int getScore(){
-        return strat.get(0).getScore();
+    public int getScore(Integer strategieId){
+        return strat.get(strategieId).getScore();
     }
 
-    public void resetScore(){
-        strat.get(0).setScore(0);
+    public void resetScore(Integer strategieId){
+        strat.get(strategieId).setScore(0);
     }
 }
