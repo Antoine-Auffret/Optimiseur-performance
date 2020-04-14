@@ -26,46 +26,52 @@ public class Systeme {
     }
 
     public void run(){
+        int strategieId = 0;
+        int stratSize = opti.getStrat().size();
         int transfoId;
         String request, response;
         Transformateur transfoToTreat;
 
-        while(true){
+        while(strategieId < stratSize){
 
-            for(Transformateur t : tList){
-                t.resume();
-            }
-
-            while(nbTour < 500){
-
-                transfoId = opti.chooseTransfo(getTransfoSize());
-                transfoToTreat = tList.get(transfoId);
-
-                System.out.println("nbTour : " + nbTour++);
-
-                if(transfoToTreat.getBufferSize() > 0){
-                    request = transfoToTreat.getElement();
-
-                    // Traitement ...
-
-                    response = "Y";
-                    transfoToTreat.sendResponse(response);
+            for (int nbRun = 1; nbRun <= 2; nbRun++) {
+                for(Transformateur t : tList){
+                    t.resume();
                 }
 
-                try {
-                    sleep(100/Conf.nbTransfo);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                while (nbTour <= 500) {
+
+                    transfoId = opti.chooseTransfo(getTransfoSize(), strategieId);
+                    System.out.println("Strategie : " + opti.getStrategieName());
+                    transfoToTreat = tList.get(transfoId);
+
+                    System.out.println("nbTour : " + nbTour++);
+
+                    if (transfoToTreat.getBufferSize() > 0) {
+                        request = transfoToTreat.getElement();
+
+                        // Traitement ...
+
+                        response = "Y";
+                        transfoToTreat.sendResponse(response);
+                    }
+
+                    try {
+                        sleep(100 / Conf.nbTransfo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+                for (Transformateur t : tList) {
+                    t.pause();
+                }
+
+                // Stats ...
+
+                nbTour = 0;
             }
-
-            for(Transformateur t : tList){
-                t.pause();
-            }
-
-            // Stats ...
-
-            nbTour=0;
+            strategieId++;
         }
     }
 
