@@ -9,7 +9,7 @@ public class Systeme {
 
     private Optimiseur opti;
 
-    private Integer nbTour = 1;
+    private Integer nbTour = 0;
 
     public Systeme(){
        tList = new ArrayList<>();
@@ -30,27 +30,42 @@ public class Systeme {
         String request, response;
         Transformateur transfoToTreat;
 
-        while(nbTour < 500){
+        while(true){
 
-            transfoId = opti.chooseTransfo(getTransfoSize());
-            transfoToTreat = tList.get(transfoId);
-
-            System.out.println("nbTour : " + nbTour++);
-
-            if(transfoToTreat.getBufferSize() > 0){
-                request = transfoToTreat.getElement();
-
-                // Traitement ...
-
-                response = "Y";
-                transfoToTreat.sendResponse(response);
+            for(Transformateur t : tList){
+                t.resume();
             }
 
-            try {
-                sleep(100/Conf.nbTransfo);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while(nbTour < 500){
+
+                transfoId = opti.chooseTransfo(getTransfoSize());
+                transfoToTreat = tList.get(transfoId);
+
+                System.out.println("nbTour : " + nbTour++);
+
+                if(transfoToTreat.getBufferSize() > 0){
+                    request = transfoToTreat.getElement();
+
+                    // Traitement ...
+
+                    response = "Y";
+                    transfoToTreat.sendResponse(response);
+                }
+
+                try {
+                    sleep(100/Conf.nbTransfo);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
+            for(Transformateur t : tList){
+                t.pause();
+            }
+
+            // Stats ...
+
+            nbTour=0;
         }
     }
 

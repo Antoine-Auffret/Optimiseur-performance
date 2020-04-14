@@ -52,6 +52,16 @@ public class Transformateur {
         f.getResponse(writeBuffStatus(), getBufferSize(), lastRequest, response);
     }
 
+    public void pause() {
+        requestFIFO.clear();
+
+        f.pause();
+    }
+
+    public void resume(){
+        f.restart();
+    }
+
     public int getBufferSize(){
         return requestFIFO.size();
     }

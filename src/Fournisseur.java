@@ -11,6 +11,8 @@ public class Fournisseur extends Thread {
 
     private static int _id = 0;
 
+    private boolean pause;
+
     boolean isDebug = java.lang.management.ManagementFactory.getRuntimeMXBean().
             getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
 
@@ -30,6 +32,8 @@ public class Fournisseur extends Thread {
         int min = 50;
         int max = 150;
 
+        pause=false;
+
         while(true) {
             int randomTime = ThreadLocalRandom.current().nextInt(min, max + 1);
 
@@ -39,7 +43,9 @@ public class Fournisseur extends Thread {
                 e.printStackTrace();
             }
 
-            sendRequest();
+            if(!pause){
+                sendRequest();
+            }
         }
     }
 
@@ -51,5 +57,13 @@ public class Fournisseur extends Thread {
     public void getResponse(String buffStatus, Integer bufferSize, String request, String response){
         String log = String.format("Id : %d | BuffStatus : %s | BuffSize : %d | Req : %s | Resp : %s", id, buffStatus, bufferSize, request, response);
         LOGGER.fine(log);
+    }
+
+    public void pause(){
+        pause=true;
+    }
+
+    public void restart(){
+        pause=false;
     }
 }
