@@ -1,23 +1,21 @@
-import org.reflections.Reflections;
-import strat.Strategie;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class Optimiseur {
-    private Strategie strat;
+    private List<Strategie> strat;
 
     public Optimiseur(){
-        strat = new Strategie(Conf.nbTransfo);
+        strat = new ArrayList<>();
 
-        Reflections reflections = new Reflections("strat");
-        Set<Class<? extends Strategie>> classes = reflections.getSubTypesOf(Strategie.class);
+        strat.add(new Strategie());
+        strat.add(new Debalancement());
+        strat.add(new Surcharge());
 
-        System.out.println(classes);
     }
 
     public int chooseTransfo(List<Integer> transfoList){
-        return strat.process(transfoList);
+        return strat.get(2).process(transfoList);
     }
 
     public void printStats(){

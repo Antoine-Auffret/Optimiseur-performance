@@ -1,20 +1,15 @@
-package strat;
-
 import java.util.List;
 
 public class Strategie {
     protected String name = "defaut";
     protected static int lastProcess;
 
-    protected static int nbElem;
-
-    public Strategie(int newNbElem){
-        nbElem = newNbElem;
+    public Strategie(){
         lastProcess = -1;
     }
 
     public int process (List<Integer> bufferSizeList){
-        lastProcess = (lastProcess+1)% nbElem;
+        lastProcess = (lastProcess+1)% Conf.nbTransfo;
         return lastProcess;
     }
 

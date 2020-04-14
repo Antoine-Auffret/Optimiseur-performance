@@ -43,7 +43,7 @@ public class Systeme {
             }
 
             try {
-                sleep(100);
+                sleep(100/Conf.nbTransfo);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
