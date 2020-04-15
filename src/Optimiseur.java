@@ -12,11 +12,12 @@ public class Optimiseur {
         Strategie defaut = new Strategie();
         Debalancement debalancement = new Debalancement();
         Surcharge surcharge = new Surcharge();
+        Hasard hasard = new Hasard();
 
         strat.add(defaut);
         strat.add(debalancement);
         strat.add(surcharge);
-
+        strat.add(hasard);
     }
 
     public int chooseTransfo(List<Integer> transfoList, Integer stategieId){
