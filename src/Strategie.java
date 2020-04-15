@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class Strategie {
-    protected String name = "defaut";
+    protected String name = "Defaut";
 
     protected static int lastProcess;
     protected static int score;

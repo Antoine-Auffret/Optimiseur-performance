@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +45,7 @@ public class Systeme {
 
         List<Integer> scoreStrat = new ArrayList<>();
 
-        List<String> tableHeader = Arrays.asList("Name", "Score", "Rejet", "Moyenne");
+        List<String> tableHeader = Arrays.asList("Name", "Score", "Min", "Max", "Rejet(%)", "Moyenne");
         List<String> tableRow = new ArrayList<>();
 
         System.out.println();
@@ -111,6 +108,8 @@ public class Systeme {
 
             tableRow.add(opti.getStrategieName());
             tableRow.add(String.valueOf(scoreStrat.stream().mapToInt(Integer::intValue).sum()));
+            tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.min(scoreStrat)))));
+            tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.max(scoreStrat)))));
             tableRow.add(String.valueOf(Math.round( ((float) getNbFullError()/Conf.nbProcess)*100)));
             tableRow.add(String.valueOf(Math.round(scoreStrat.stream().mapToInt(Integer::intValue).average().getAsDouble())));
 
