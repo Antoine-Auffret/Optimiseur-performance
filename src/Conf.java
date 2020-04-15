@@ -4,4 +4,5 @@ public class Conf {
     public static final int nbTransfo = 4;
     public static final int timer = 50;
     public static final int nbProcess = 500;
+    public static final int nbRun = 2;
 }

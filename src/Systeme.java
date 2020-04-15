@@ -35,7 +35,7 @@ public class Systeme {
 
         while(strategieId < stratSize){
 
-            for (int nbRun = 1; nbRun <= 2; nbRun++) {
+            for (int nbRun = 1; nbRun <= Conf.nbRun; nbRun++) {
                 for(Transformateur t : tList){
                     t.resume();
                 }
