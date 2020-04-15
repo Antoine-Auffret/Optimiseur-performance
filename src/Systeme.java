@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -45,6 +46,17 @@ public class Systeme {
         String request, response;
         Transformateur transfoToTreat;
 
+        List<Integer> scoreStrat = new ArrayList<>();
+
+        List<String> tableHeader = Arrays.asList("Name", "Score", "Rejet", "Moyenne");
+        List<String> tableRow = new ArrayList<>();
+
+        System.out.println();
+
+        for ( String column : tableHeader) {
+            System.out.print(String.format("%15s", column));
+        }
+
         while(strategieId < stratSize){
 
             for (int nbRun = 1; nbRun <= Conf.nbRun; nbRun++) {
@@ -55,7 +67,7 @@ public class Systeme {
                 opti.resetScore(strategieId);
 
                 opti.chooseTransfo(getTransfoSize(), strategieId);
-                System.out.println("Run : " + nbRun + " | Strategie : " + opti.getStrategieName());
+                //System.out.println("Run : " + nbRun + " | Strategie : " + opti.getStrategieName());
 
                 while (nbTour <= Conf.nbProcess) {
 
@@ -85,15 +97,35 @@ public class Systeme {
                 }
 
                 int score = opti.getScore(strategieId) + 25*getNbFullError();
+
+                scoreStrat.add(score);
+                /*
                 System.out.println("Score : " + score);
 
                 System.out.println("Press Enter key to continue...");
                 Scanner s = new Scanner(System.in);
-                s.nextLine();
+                s.nextLine();*/
 
                 nbTour = 0;
             }
+
+            tableRow.add(opti.getStrategieName());
+            tableRow.add(String.valueOf(scoreStrat.stream().mapToInt(Integer::intValue).sum()));
+            tableRow.add(String.valueOf(Math.round( ((float) getNbFullError()/Conf.nbProcess)*100)));
+            tableRow.add(String.valueOf(Math.round(scoreStrat.stream().mapToInt(Integer::intValue).average().getAsDouble())));
+
+            System.out.println();
+            for ( String row : tableRow) {
+                System.out.print(String.format("%15s", row));
+            }
+
+            tableRow.clear();
+            scoreStrat.clear();
             strategieId++;
+        }
+
+        for(double score : scoreStrat){
+            System.out.format("");
         }
     }
 

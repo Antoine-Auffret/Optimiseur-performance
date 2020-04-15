@@ -57,11 +57,11 @@ public class Transformateur {
 
     public void pause() {
         requestFIFO.clear();
-
         f.pause();
     }
 
     public void resume(){
+        cptErrorFull = 0;
         f.restart();
     }
 
