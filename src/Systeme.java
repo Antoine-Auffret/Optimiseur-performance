@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.lang.Thread.sleep;
 
@@ -12,18 +14,28 @@ public class Systeme {
 
     private Integer nbTour = 0;
 
+    boolean isDebug = java.lang.management.ManagementFactory.getRuntimeMXBean().
+            getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
+
+    private static final Logger LOGGER = Logger.getLogger("");
+
     public Systeme(){
-       tList = new ArrayList<>();
+        if (isDebug) {
+            LOGGER.setLevel(Level.FINE);
+            LOGGER.getHandlers()[0].setLevel(Level.FINE);
+        }
 
-       int nbTranfo = Conf.nbTransfo;
+        tList = new ArrayList<>();
 
-       for(int i=0; i<nbTranfo; i++){
-           tList.add(new Transformateur());
-       }
+        int nbTranfo = Conf.nbTransfo;
 
-       opti = new Optimiseur();
+        for(int i=0; i<nbTranfo; i++){
+            tList.add(new Transformateur());
+        }
 
-       run();
+        opti = new Optimiseur();
+
+        run();
     }
 
     public void run(){
@@ -42,13 +54,15 @@ public class Systeme {
 
                 opti.resetScore(strategieId);
 
+                opti.chooseTransfo(getTransfoSize(), strategieId);
+                System.out.println("Run : " + nbRun + " | Strategie : " + opti.getStrategieName());
+
                 while (nbTour <= Conf.nbProcess) {
 
                     transfoId = opti.chooseTransfo(getTransfoSize(), strategieId);
-                    System.out.println("Strategie : " + opti.getStrategieName());
                     transfoToTreat = tList.get(transfoId);
 
-                    System.out.println("nbTour : " + nbTour++);
+                    LOGGER.fine("nbTour : " + nbTour++);
 
                     if (transfoToTreat.getBufferSize() > 0) {
                         request = transfoToTreat.getElement();
