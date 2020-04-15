@@ -72,4 +72,8 @@ public class Transformateur {
     public int getNbErrorFull(){
         return cptErrorFull;
     }
+
+    public void stop(){
+        f.shutdown();
+    }
 }

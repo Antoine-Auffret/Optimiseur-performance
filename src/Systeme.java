@@ -123,8 +123,8 @@ public class Systeme {
             strategieId++;
         }
 
-        for(double score : scoreStrat){
-            System.out.format("");
+        for(Transformateur t : tList){
+            t.stop();
         }
     }
 

@@ -11,6 +11,7 @@ public class Fournisseur extends Thread {
     private static int _id = 0;
 
     private boolean pause;
+    private boolean isRunning;
 
     boolean isDebug = java.lang.management.ManagementFactory.getRuntimeMXBean().
             getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
@@ -32,8 +33,9 @@ public class Fournisseur extends Thread {
         int max = (int) Math.round(Conf.timer*1.2);
 
         pause=false;
+        isRunning=true;
 
-        while(true) {
+        while(isRunning) {
             int randomTime = ThreadLocalRandom.current().nextInt(min, max + 1);
 
             try {
@@ -65,4 +67,6 @@ public class Fournisseur extends Thread {
     public void restart(){
         pause=false;
     }
+
+    public void shutdown(){isRunning=false;}
 }
