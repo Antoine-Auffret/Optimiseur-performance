@@ -28,8 +28,8 @@ public class Optimiseur {
         return strategieName;
     }
 
-    public List<Strategie> getStrat() {
-        return strat;
+    public int getStratSize() {
+        return strat.size();
     }
 
     public int getScore(Integer strategieId){

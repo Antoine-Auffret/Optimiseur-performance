@@ -1,5 +1,4 @@
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,8 +28,8 @@ public class Fournisseur extends Thread {
     }
 
     public void run() {
-        int min = 50;
-        int max = 150;
+        int min = (int) Math.round(Conf.timer*0.5);
+        int max = (int) Math.round(Conf.timer*1.5);
 
         pause=false;
 
@@ -38,7 +37,7 @@ public class Fournisseur extends Thread {
             int randomTime = ThreadLocalRandom.current().nextInt(min, max + 1);
 
             try {
-                TimeUnit.MILLISECONDS.sleep(randomTime);
+                sleep(randomTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

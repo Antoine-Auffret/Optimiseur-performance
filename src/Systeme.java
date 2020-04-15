@@ -28,7 +28,7 @@ public class Systeme {
 
     public void run(){
         int strategieId = 0;
-        int stratSize = opti.getStrat().size();
+        int stratSize = opti.getStratSize();
         int transfoId;
         String request, response;
         Transformateur transfoToTreat;
@@ -42,7 +42,7 @@ public class Systeme {
 
                 opti.resetScore(strategieId);
 
-                while (nbTour <= 500) {
+                while (nbTour <= Conf.nbProcess) {
 
                     transfoId = opti.chooseTransfo(getTransfoSize(), strategieId);
                     System.out.println("Strategie : " + opti.getStrategieName());
@@ -60,7 +60,7 @@ public class Systeme {
                     }
 
                     try {
-                        sleep(100 / Conf.nbTransfo);
+                        sleep(Conf.timer / Conf.nbTransfo);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
