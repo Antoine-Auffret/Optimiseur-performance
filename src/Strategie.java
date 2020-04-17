@@ -4,7 +4,7 @@ public class Strategie {
     protected String name = "Defaut";
 
     protected static int lastProcess;
-    protected static int score;
+    protected static int score = 0;
 
     protected int cost;
 

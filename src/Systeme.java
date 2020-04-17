@@ -41,7 +41,7 @@ public class Systeme {
         int stratSize = opti.getStratSize();
         int transfoId;
 
-        double timer = (double) Conf.timer / (double) Conf.nbTransfo ;
+        double timer = Math.round(((double) Conf.timer / (double) Conf.nbTransfo)*100.0)/100.0;
 
         String[] arr=String.valueOf(timer).split("\\.");
         int[] intArr=new int[2];
@@ -73,15 +73,14 @@ public class Systeme {
 
                 opti.resetScore(strategieId);
 
-                opti.chooseTransfo(getTransfoSize(), strategieId);
-                //System.out.println("Run : " + nbRun + " | Strategie : " + opti.getStrategieName());
-
-                while (nbTour <= Conf.nbProcess) {
+                while (nbTour < Conf.nbProcess) {
 
                     transfoId = opti.chooseTransfo(getTransfoSize(), strategieId);
                     transfoToTreat = tList.get(transfoId);
 
-                    LOGGER.fine("nbTour : " + nbTour++);
+                    //LOGGER.fine("nbTour : " + nbTour++);
+
+                    nbTour++;
 
                     if (transfoToTreat.getBufferSize() > 0) {
                         request = transfoToTreat.getElement();
