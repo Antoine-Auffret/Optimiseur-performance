@@ -45,13 +45,13 @@ public class Systeme {
 
         List<Integer> scoreStrat = new ArrayList<>();
 
-        List<String> tableHeader = Arrays.asList("Name", "Score", "Min", "Max", "Rejet(%)", "Moyenne");
+        List<String> tableHeader = Arrays.asList("Name", "Score", "Min", "Max", "Rejet", "Moyenne");
         List<String> tableRow = new ArrayList<>();
 
         System.out.println();
 
         for ( String column : tableHeader) {
-            System.out.print(String.format("%15s", column));
+            System.out.print(String.format("%25s", column));
         }
 
         while(strategieId < stratSize){
@@ -110,17 +110,22 @@ public class Systeme {
             tableRow.add(String.valueOf(scoreStrat.stream().mapToInt(Integer::intValue).sum()));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.min(scoreStrat)))));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.max(scoreStrat)))));
-            tableRow.add(String.format("%.2f", ((double)getNbFullError()/Conf.nbProcess)*100));
+            tableRow.add(String.format("%d/%d (%.2f%%)", getNbFullError(), Conf.nbProcess*Conf.nbRun, (double) getNbFullError()/(Conf.nbProcess*Conf.nbRun)*100));
             tableRow.add(String.valueOf(Math.round(scoreStrat.stream().mapToInt(Integer::intValue).average().getAsDouble())));
 
             System.out.println();
             for ( String row : tableRow) {
-                System.out.print(String.format("%15s", row));
+                System.out.print(String.format("%25s", row));
             }
 
             tableRow.clear();
             scoreStrat.clear();
             strategieId++;
+
+            for(Transformateur t : tList){
+                t.resetError();
+            }
+
         }
 
         for(Transformateur t : tList){

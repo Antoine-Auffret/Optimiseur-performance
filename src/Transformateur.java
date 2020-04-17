@@ -61,7 +61,6 @@ public class Transformateur {
     }
 
     public void resume(){
-        cptErrorFull = 0;
         f.restart();
     }
 
@@ -71,6 +70,10 @@ public class Transformateur {
 
     public int getNbErrorFull(){
         return cptErrorFull;
+    }
+
+    public void resetError(){
+        cptErrorFull = 0;
     }
 
     public void stop(){
