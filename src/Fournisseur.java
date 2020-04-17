@@ -29,17 +29,22 @@ public class Fournisseur extends Thread {
     }
 
     public void run() {
-        int min = (int) Math.round(Conf.timer*0.5);
-        int max = (int) Math.round(Conf.timer);
+        double min = Math.round(Conf.timer*0.5);
+        double max = Math.round(Conf.timer);
 
         pause=false;
         isRunning=true;
 
         while(isRunning) {
-            int randomTime = ThreadLocalRandom.current().nextInt(min, max + 1);
+            double randomTime = Math.round(ThreadLocalRandom.current().nextDouble(min, max + 1)*100.0)/100.0;
+
+            String[] arr=String.valueOf(randomTime).split("\\.");
+            int[] intArr=new int[2];
+            intArr[0]=Integer.parseInt(arr[0]);
+            intArr[1]=Integer.parseInt(arr[1]);
 
             try {
-                sleep(randomTime);
+                sleep(intArr[0], intArr[1]);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
