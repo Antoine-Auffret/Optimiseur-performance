@@ -4,6 +4,7 @@ import java.util.List;
 public class Surcharge extends Strategie{
     public Surcharge(){
         name = "Surcharge";
+        cost = 3;
     }
 
     @Override
@@ -11,14 +12,14 @@ public class Surcharge extends Strategie{
 
         if(lastProcess >= 0){
             if(bufferSizeList.get(lastProcess) >= Capacite.DANGER.getValue()) {
-                score+=3;
+                score+=cost;
                 return lastProcess;
             }
             else{
                 for(int i=0; i<bufferSizeList.size(); i++){
                     if(bufferSizeList.get(i) >= Capacite.DANGER.getValue()){
                         lastProcess = i;
-                        score += 3;
+                        score += cost;
                         return lastProcess;
                     }
                 }

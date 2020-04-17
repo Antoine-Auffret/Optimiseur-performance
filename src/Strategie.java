@@ -6,6 +6,8 @@ public class Strategie {
     protected static int lastProcess;
     protected static int score;
 
+    protected int cost;
+
     public Strategie(){
         lastProcess = -1;
     }

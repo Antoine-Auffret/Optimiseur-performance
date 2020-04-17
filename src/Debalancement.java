@@ -5,6 +5,7 @@ import java.util.List;
 public class Debalancement extends Strategie {
     public Debalancement(){
         name = "Debalancement";
+        cost = 2;
     }
 
     @Override
@@ -19,7 +20,7 @@ public class Debalancement extends Strategie {
         }
 
         if(maxIndices.size() == 1){
-            score+=2;
+            score+=cost;
             lastProcess = maxIndices.get(0);
             return lastProcess;
         }
