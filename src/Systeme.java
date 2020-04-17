@@ -40,6 +40,16 @@ public class Systeme {
         int strategieId = 0;
         int stratSize = opti.getStratSize();
         int transfoId;
+
+        double timer = (double) Conf.timer / (double) Conf.nbTransfo ;
+
+        String[] arr=String.valueOf(timer).split("\\.");
+        int[] intArr=new int[2];
+        intArr[0]=Integer.parseInt(arr[0]);
+        intArr[1]=Integer.parseInt(arr[1]);
+
+        System.out.println(String.format("%d.%d",intArr[0], intArr[1]));
+
         String request, response;
         Transformateur transfoToTreat;
 
@@ -82,8 +92,9 @@ public class Systeme {
                         transfoToTreat.sendResponse(response);
                     }
 
+
                     try {
-                        sleep(Conf.timer / Conf.nbTransfo);
+                        sleep(intArr[0], intArr[1]);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -110,7 +121,7 @@ public class Systeme {
             tableRow.add(String.valueOf(scoreStrat.stream().mapToInt(Integer::intValue).sum()));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.min(scoreStrat)))));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.max(scoreStrat)))));
-            tableRow.add(String.format("%d/%d (%.2f%%)", getNbFullError(), Conf.nbProcess*Conf.nbRun, (double) getNbFullError()/(Conf.nbProcess*Conf.nbRun)*100));
+            tableRow.add(String.format("%d/%d (%.2f%%)", getNbFullError(), getNbReqSend(), (double) getNbFullError()/getNbReqSend()*100));
             tableRow.add(String.valueOf(Math.round(scoreStrat.stream().mapToInt(Integer::intValue).average().getAsDouble())));
 
             System.out.println();
@@ -123,7 +134,7 @@ public class Systeme {
             strategieId++;
 
             for(Transformateur t : tList){
-                t.resetError();
+                t.resetStats();
             }
 
         }
@@ -142,6 +153,14 @@ public class Systeme {
 
         return bufferSizeList;
      }
+
+    private int getNbReqSend(){
+        int totalSend = 0;
+        for(Transformateur t : tList){
+            totalSend += t.getNbReqSend();
+        }
+        return totalSend;
+    }
 
     private int getNbFullError(){
         int totalError = 0;

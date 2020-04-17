@@ -12,6 +12,7 @@ public class Transformateur {
     private String buffStatus;
 
     private int cptErrorFull = 0;
+    private int cptReqSend = 0;
 
     public Transformateur(){
 
@@ -22,6 +23,8 @@ public class Transformateur {
     }
 
     public void getRequest(String request){
+        cptReqSend++;
+
         if(getBufferSize() < Conf.maxBufferSize){
             requestFIFO.add(request);
         }
@@ -72,7 +75,12 @@ public class Transformateur {
         return cptErrorFull;
     }
 
-    public void resetError(){
+    public int getNbReqSend(){
+        return cptReqSend;
+    }
+
+    public void resetStats(){
+        cptReqSend = 0;
         cptErrorFull = 0;
     }
 
