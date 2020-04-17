@@ -110,7 +110,7 @@ public class Systeme {
             tableRow.add(String.valueOf(scoreStrat.stream().mapToInt(Integer::intValue).sum()));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.min(scoreStrat)))));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.max(scoreStrat)))));
-            tableRow.add(String.valueOf(Math.round( ((float) getNbFullError()/Conf.nbProcess)*100)));
+            tableRow.add(String.format("%.2f", ((double)getNbFullError()/Conf.nbProcess)*100));
             tableRow.add(String.valueOf(Math.round(scoreStrat.stream().mapToInt(Integer::intValue).average().getAsDouble())));
 
             System.out.println();
