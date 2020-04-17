@@ -29,8 +29,8 @@ public class Fournisseur extends Thread {
     }
 
     public void run() {
-        double min = Math.round(Conf.timer*0.7);
-        double max = Math.round(Conf.timer*1.4);
+        double min = Math.round((Conf.timer*0.6)*100)/100.0;
+        double max = Math.round((Conf.timer*1.4)*100)/100.0;
 
         pause=false;
         isRunning=true;
