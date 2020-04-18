@@ -9,15 +9,11 @@ public class Optimiseur {
     public Optimiseur(){
         strat = new ArrayList<>();
 
-        Strategie defaut = new Strategie();
-        Debalancement debalancement = new Debalancement();
-        Surcharge surcharge = new Surcharge();
-        Hasard hasard = new Hasard();
-
-        strat.add(defaut);
-        strat.add(debalancement);
-        strat.add(surcharge);
-        strat.add(hasard);
+        strat.add(new Strategie());
+        strat.add(new Debalancement());
+        strat.add(new Surcharge());
+        strat.add(new Hasard());
+        strat.add(new Equilibrage());
     }
 
     public int chooseTransfo(List<Integer> transfoList, Integer stategieId){
