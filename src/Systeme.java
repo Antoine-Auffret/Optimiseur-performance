@@ -114,12 +114,6 @@ public class Systeme {
                 int score = opti.getScore(strategieId) + 25*getNbFullError();
 
                 scoreStrat.add(score);
-                /*
-                System.out.println("Score : " + score);
-
-                System.out.println("Press Enter key to continue...");
-                Scanner s = new Scanner(System.in);
-                s.nextLine();*/
 
                 nbTour = 0;
             }

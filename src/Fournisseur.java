@@ -32,7 +32,7 @@ public class Fournisseur extends Thread {
     public void run() {
 
         // Le temps minimum et maximum entre deux envoie de requête.
-        double min = Math.round((Conf.timer*0.6)*100)/100.0;
+        double min = Math.round((Conf.timer*0.5)*100)/100.0;
         double max = Math.round((Conf.timer*1.1)*100)/100.0;
 
         pause=false;
