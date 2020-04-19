@@ -13,6 +13,7 @@ public class Fournisseur extends Thread {
     private boolean pause;
     private boolean isRunning;
 
+    // Vaut true si le programme est lancé en mode debug, sinon vaut false.
     boolean isDebug = java.lang.management.ManagementFactory.getRuntimeMXBean().
             getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
 
@@ -29,6 +30,8 @@ public class Fournisseur extends Thread {
     }
 
     public void run() {
+
+        // Le temps minimum et maximum entre deux envoie de requête.
         double min = Math.round((Conf.timer*0.6)*100)/100.0;
         double max = Math.round((Conf.timer*1.1)*100)/100.0;
 
@@ -50,28 +53,34 @@ public class Fournisseur extends Thread {
             }
 
             if(!pause){
+                // Envoie d'une requête
                 sendRequest();
             }
         }
     }
 
+    // Envoie d'une requête au transformateur
     private void sendRequest(){
         String request = "Vent gas ?";
         t.getRequest(request);
     }
 
+    // Affiche la réponse d'une requête (en mode debug)
     public void getResponse(String buffStatus, Integer bufferSize, String request, String response){
         String log = String.format("Id : %d | BuffStatus : %s | BuffSize : %d | Req : %s | Resp : %s", id, buffStatus, bufferSize, request, response);
         LOGGER.fine(log);
     }
 
+    // Permet d'arréter les envoie de requête manière temporaire
     public void pause(){
         pause=true;
     }
 
+    // Permet de relancer l'envoie de requête
     public void restart(){
         pause=false;
     }
 
+    // Arrêt du thread
     public void shutdown(){isRunning=false;}
 }

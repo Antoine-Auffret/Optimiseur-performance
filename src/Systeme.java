@@ -68,6 +68,7 @@ public class Systeme {
 
             for (int nbRun = 1; nbRun <= Conf.nbRun; nbRun++) {
                 for(Transformateur t : tList){
+                    t.reset();
                     t.resume();
                 }
 
@@ -78,8 +79,6 @@ public class Systeme {
                     transfoId = opti.chooseTransfo(getTransfoSize(), strategieId);
                     transfoToTreat = tList.get(transfoId);
 
-                    //LOGGER.fine("nbTour : " + nbTour++);
-
                     nbTour++;
 
                     if (transfoToTreat.getBufferSize() > 0) {
@@ -87,8 +86,10 @@ public class Systeme {
 
                         // Traitement ...
 
-                        response = "Y";
-                        transfoToTreat.sendResponse(response);
+                        if(request != "") {
+                            response = "Y";
+                            transfoToTreat.sendResponse(response);
+                        }
                     }
 
 
@@ -97,10 +98,6 @@ public class Systeme {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
-
-                for (Transformateur t : tList) {
-                    t.pause();
                 }
 
                 int score = opti.getScore(strategieId) + 25*getNbFullError();
@@ -120,7 +117,7 @@ public class Systeme {
             tableRow.add(String.valueOf(scoreStrat.stream().mapToInt(Integer::intValue).sum()));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.min(scoreStrat)))));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.max(scoreStrat)))));
-            tableRow.add(String.format("%d/%d (%.2f%%)", getNbFullError(), getNbReqSend(), (double) getNbFullError()/getNbReqSend()*100));
+            tableRow.add(String.format("%d/%d (%.2f%%)", getTotalError(), getNbReqSend(), (double) getTotalError()/getNbReqSend()*100));
             tableRow.add(String.valueOf(Math.round(scoreStrat.stream().mapToInt(Integer::intValue).average().getAsDouble())));
 
             System.out.println();
@@ -135,7 +132,6 @@ public class Systeme {
             for(Transformateur t : tList){
                 t.resetStats();
             }
-
         }
 
         for(Transformateur t : tList){
@@ -165,6 +161,14 @@ public class Systeme {
         int totalError = 0;
         for(Transformateur t : tList){
             totalError += t.getNbErrorFull();
+        }
+        return totalError;
+    }
+
+    private int getTotalError(){
+        int totalError = 0;
+        for(Transformateur t : tList){
+            totalError += t.getTotalError();
         }
         return totalError;
     }
