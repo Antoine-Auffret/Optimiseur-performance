@@ -27,10 +27,12 @@ public class Systeme {
 
         int nbTranfo = Conf.nbTransfo;
 
+        // Instanciation des transformateurs
         for(int i=0; i<nbTranfo; i++){
             tList.add(new Transformateur());
         }
 
+        // Instanciation de l'optimiseur
         opti = new Optimiseur();
 
         run();
@@ -55,6 +57,7 @@ public class Systeme {
 
         List<Integer> scoreStrat = new ArrayList<>();
 
+        // Header du tableau de stats
         List<String> tableHeader = Arrays.asList("Name", "Score", "Min", "Max", "Rejet", "Moyenne");
         List<String> tableRow = new ArrayList<>();
 
@@ -64,9 +67,12 @@ public class Systeme {
             System.out.print(String.format("%25s", column));
         }
 
+        // On parcoure tout les strategies
         while(strategieId < stratSize){
 
+            // On effectue un nombre de test prédéfini
             for (int nbRun = 1; nbRun <= Conf.nbRun; nbRun++) {
+                // On remet à jour le transformateur pour réalier un nouveau test
                 for(Transformateur t : tList){
                     t.reset();
                     t.resume();
@@ -74,19 +80,23 @@ public class Systeme {
 
                 opti.resetScore(strategieId);
 
+                // On réalise un nombre de tour prédéfini pour le test
                 while (nbTour < Conf.nbProcess) {
 
+                    // On récupère l'id du transformateur à traité
                     transfoId = opti.chooseTransfo(getTransfoSize(), strategieId);
                     transfoToTreat = tList.get(transfoId);
 
                     nbTour++;
 
+                    // Si le transformateur n'est pas vide, on traite une requête
                     if (transfoToTreat.getBufferSize() > 0) {
                         request = transfoToTreat.getElement();
 
                         // Traitement ...
 
                         if(request != "") {
+                            // Envoie d'une réponse
                             response = "Y";
                             transfoToTreat.sendResponse(response);
                         }
@@ -94,6 +104,7 @@ public class Systeme {
 
 
                     try {
+                        // Temporisation
                         sleep(intArr[0], intArr[1]);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -113,6 +124,7 @@ public class Systeme {
                 nbTour = 0;
             }
 
+            // Affiche d'une ligne de statisiques pour la stratégie en cours
             tableRow.add(opti.getStrategieName());
             tableRow.add(String.valueOf(scoreStrat.stream().mapToInt(Integer::intValue).sum()));
             tableRow.add(String.valueOf(scoreStrat.get(scoreStrat.indexOf(Collections.min(scoreStrat)))));
@@ -129,16 +141,19 @@ public class Systeme {
             scoreStrat.clear();
             strategieId++;
 
+            // On remet à 0 les stats du transformateur
             for(Transformateur t : tList){
                 t.resetStats();
             }
         }
 
+        // On arrête le système
         for(Transformateur t : tList){
             t.stop();
         }
     }
 
+    // Retourne la taille de tout les buffers
     private List<Integer> getTransfoSize(){
         List<Integer> bufferSizeList = new ArrayList<>();
 
@@ -149,6 +164,7 @@ public class Systeme {
         return bufferSizeList;
      }
 
+     // Retourne le nombre total de requête envoyer
     private int getNbReqSend(){
         int totalSend = 0;
         for(Transformateur t : tList){
@@ -157,6 +173,7 @@ public class Systeme {
         return totalSend;
     }
 
+    // Retourne le nombre d'erreur durant un run
     private int getNbFullError(){
         int totalError = 0;
         for(Transformateur t : tList){
@@ -165,6 +182,7 @@ public class Systeme {
         return totalError;
     }
 
+    // Retourne le nombre total d'erreur lors d'un test
     private int getTotalError(){
         int totalError = 0;
         for(Transformateur t : tList){
